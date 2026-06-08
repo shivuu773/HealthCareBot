@@ -1,0 +1,8 @@
+node_modules/
+Backend/node_modules/
+Backend/healthbot.db
+Backend/healthbot.db-shm
+Backend/healthbot.db-wal
+.env
+.DS_Store
+*.log

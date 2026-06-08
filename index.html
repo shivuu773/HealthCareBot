@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="HealthBot - AI-driven public health chatbot for disease awareness, precautions, and medicine information."/>
+  <title>HealthBot – Healthcare Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+
+  <!-- ═══ Top Navbar ═══ -->
+  <div class="top-bar">
+    <div class="location">
+      <span class="logo-icon">🩺</span> HealthBot
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search for Medicine or Disease" id="globalSearch"/>
+      <button onclick="searchGlobal()">Search</button>
+    </div>
+
+    <div class="right-icons">
+      <div id="bookAppointment">📅 Book Appointment</div>
+    </div>
+  </div>
+
+  <!-- ═══ Navigation ═══ -->
+  <div class="bottom-nav" id="mainNav">
+    <a onclick="showSection('home')" class="nav-link active" data-section="home">🏠 Home</a>
+    <a onclick="showSection('diseases')" class="nav-link" data-section="diseases">🦠 Diseases</a>
+    <a onclick="showSection('about')" class="nav-link" data-section="about">ℹ️ About</a>
+    <a onclick="showSection('contact')" class="nav-link" data-section="contact">📞 Contact</a>
+    <a onclick="showSection('chatbot')" class="nav-link" data-section="chatbot">🤖 Chatbot</a>
+    <a onclick="showSection('appointments')" class="nav-link" data-section="appointments">📋 Appointments</a>
+  </div>
+
+  <!-- ═══ Auth Page ═══ -->
+  <div id="authPage">
+    <div class="auth-box">
+      <div class="auth-logo">🩺</div>
+      <h1>HealthBot</h1>
+      <p class="tagline">AI-driven public health chatbot for disease awareness</p>
+
+      <div class="tab-buttons">
+        <button id="loginTab" class="active" onclick="switchTab('login')">Login</button>
+        <button id="registerTab" onclick="switchTab('register')">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="active">
+        <input type="text" id="loginUsername" placeholder="👤 Username" required>
+        <input type="password" id="loginPassword" placeholder="🔒 Password" required>
+        <button type="submit" class="submit-btn">Login →</button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm">
+        <input type="text" id="regUsername" placeholder="👤 Choose Username" required>
+        <input type="password" id="regPassword" placeholder="🔒 Choose Password" required>
+        <button type="submit" class="submit-btn">Register →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══ Home Section ═══ -->
+  <div id="home" class="section" style="background-image: url('Home.jpg');">
+    <div class="hero-content">
+      <h1>Welcome to HealthBot Portal</h1>
+      <p>Your trusted AI-powered platform for health awareness, disease information, and wellness guidance.</p>
+      <blockquote>"Healthy mind lives in a healthy body."</blockquote>
+      <div class="hero-actions">
+        <button class="hero-btn primary" onclick="showSection('diseases')">🦠 Browse Diseases</button>
+        <button class="hero-btn secondary" onclick="showSection('chatbot')">🤖 Talk to ChatBot</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Diseases Section (NEW) ═══ -->
+  <div id="diseases" class="section diseases-section">
+    <h1>🩺 Disease Information Center</h1>
+    <p class="diseases-subtitle">Select a disease to view precautions and recommended medicines</p>
+
+    <div class="disease-search-wrapper">
+      <input type="text" id="diseaseSearch" placeholder="🔍 Search diseases..." oninput="filterDiseases(this.value)"/>
+    </div>
+
+    <div class="disease-grid" id="diseaseGrid">
+      <!-- Cards populated by JS -->
+      <div class="loading-spinner" id="diseaseLoader">
+        <div class="spinner"></div>
+        <p>Loading diseases...</p>
+      </div>
+    </div>
+
+    <!-- Disease Detail Modal -->
+    <div class="disease-modal-overlay" id="diseaseModalOverlay" onclick="closeDiseaseModal()">
+      <div class="disease-modal" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeDiseaseModal()">✕</button>
+        <div class="modal-header">
+          <h2 id="modalDiseaseName"></h2>
+          <p id="modalDiseaseDesc"></p>
+        </div>
+        <div class="modal-body">
+          <div class="modal-section">
+            <h3>⚠️ Precautions</h3>
+            <ul id="modalPrecautions"></ul>
+          </div>
+          <div class="modal-section">
+            <h3>💊 Recommended Medicines</h3>
+            <ul id="modalMedicines"></ul>
+          </div>
+        </div>
+        <div class="modal-disclaimer">
+          <p>⚕️ <strong>Disclaimer:</strong> This information is for educational purposes only. Always consult a qualified healthcare professional before taking any medication.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ About Section ═══ -->
+  <div id="about" class="section" style="background-image: url('About.jpg');">
+    <h1>About Us</h1>
+    <p>
+      Welcome to <strong>HealthBot</strong>, an AI-driven public health chatbot designed to raise awareness about diseases and promote healthier lifestyles.
+      Using advanced artificial intelligence, our chatbot provides reliable information, guidance on symptoms, preventive measures, and general health tips.
+    </p>
+    <p>
+      Our goal is to empower individuals with accurate health knowledge and encourage timely medical consultation, making healthcare information accessible to everyone, anytime, anywhere.
+    </p>
+  </div>
+
+  <!-- ═══ Contact Section ═══ -->
+  <div id="contact" class="section" style="background-image: url('contact.jpg')">
+    <h1>Contact Us</h1>
+    <p>Email: support@healthcare.com | Phone: +91 6306037969</p>
+  </div>
+
+  <!-- ═══ Chatbot Section ═══ -->
+  <div id="chatbot" class="section" style="background-image: url('chatbot.jpg');">
+    <h1>Healthcare Chatbot</h1>
+    <div class="app">
+      <header>
+        <img src="https://img.icons8.com/color/96/doctor-male.png" alt="Doctor"/>
+        <div><h2>HealthBot</h2><p>Online</p></div>
+      </header>
+      <div class="chat-area" id="chat"></div>
+      <div class="controls">
+        <input id="userInput" type="text" placeholder="Ask about health..."/>
+        <button id="sendBtn">➤</button>
+        <button id="voiceBtn" title="Voice input">🎤</button>
+        <label for="imageUpload" title="Upload image">📷</label>
+        <input type="file" id="imageUpload" accept="image/*"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Appointments Section ═══ -->
+  <div id="appointments" class="section" style="background-image: url('appointment.jpg');">
+    <h1>My Appointments</h1>
+    <div class="appointments-header">
+      <button id="refreshAppointments" onclick="viewDatabase()">🔄 Refresh Bookings</button>
+      <p id="appointmentSummary">Loading appointment records...</p>
+    </div>
+    <ul id="appointmentsList"></ul>
+  </div>
+
+  <!-- ═══ Appointment Modal ═══ -->
+  <dialog id="apptDialog">
+    <form method="dialog" class="appt-form">
+      <h3>📅 Book Appointment</h3>
+
+      <label for="appointmentType">Appointment Type:</label>
+      <select id="appointmentType" required>
+        <option value="">-- Select Type --</option>
+        <option value="General Checkup">General Checkup</option>
+        <option value="Dentist">Dentist</option>
+        <option value="Cardiologist">Cardiologist</option>
+        <option value="Dermatologist">Dermatologist</option>
+        <option value="Eye Specialist">Eye Specialist</option>
+        <option value="Orthopedic">Orthopedic</option>
+        <option value="Pediatrician">Pediatrician</option>
+      </select>
+
+      <label for="appointmentDate">Choose a date:</label>
+      <input type="date" id="appointmentDate" required>
+
+      <label for="appointmentTime">Choose a time (optional):</label>
+      <input type="time" id="appointmentTime">
+
+      <label for="appointmentName">Patient Name:</label>
+      <input type="text" id="appointmentName" placeholder="Enter your name" required>
+
+      <label for="appointmentContact">Contact Number:</label>
+      <input type="tel" id="appointmentContact" placeholder="Enter contact number" required>
+
+      <div class="actions">
+        <button id="cancelAppt" value="cancel" type="button">Cancel</button>
+        <button id="confirmAppt" value="default" type="button">Confirm</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="index.js"></script>
+</body>
+</html>
